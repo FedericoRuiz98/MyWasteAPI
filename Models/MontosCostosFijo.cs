@@ -9,6 +9,7 @@ namespace MyWasteAPI.Models
     {
         public int IdCostoFijo { get; set; }
         public string Mes { get; set; }
+        public string Year { get; set; }
         public double Monto { get; set; }
 
         public virtual CostosFijo IdCostoFijoNavigation { get; set; }

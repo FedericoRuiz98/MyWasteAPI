@@ -35,6 +35,17 @@ namespace MyWasteAPI.Controllers
             }
         }
 
+        // api/v1/Usuario/id
+        [HttpPost]
+        [Route("api/v1/[controller]/login")]
+        public IEnumerable<Usuario> login(string email)
+        {
+            using (var context = new MyWasteDBContext())
+            {
+                return context.Usuarios.Where(user => user.Email == email).ToList();
+            }
+        }
+
         // api/v1/Usuario/
         [HttpPost]
         [Route("api/v1/[controller]")]

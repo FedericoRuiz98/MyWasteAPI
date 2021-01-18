@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Cors;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using MyWasteAPI.Models;
@@ -11,44 +10,43 @@ using System.Threading.Tasks;
 namespace MyWasteAPI.Controllers
 {
     [ApiController]
-    public class CategoriaController : ControllerBase
+    public class PasivoController : ControllerBase
     {
 
-        // api/v1/Categoria
-        [EnableCors]
+        // api/v1/Pasivo
         [HttpGet]
         [Route("api/v1/[controller]")]
-        public IEnumerable<Categoria> Get()
+        public IEnumerable<Pasivo> Get()
         {
             using (var context = new MyWasteDBContext())
             {
-                return context.Categorias.ToList();
+                return context.Pasivos.ToList();
             }
         }
 
-        // api/v1/Categoria/id
+        // api/v1/Pasivo/id
         [HttpGet]
         [Route("api/v1/[controller]/{id}")]
-        public IEnumerable<Categoria> GetOneById(int id)
+        public IEnumerable<Pasivo> GetOneById(int id)
         {
             using (var context = new MyWasteDBContext())
             {
-                return context.Categorias.Where(cat => cat.IdCategoria == id).ToList();
+                return context.Pasivos.Where(p => p.IdPasivo == id).ToList();
             }
         }
 
-        // api/v1/Categoria/
+        // api/v1/Persona/
         [HttpPost]
         [Route("api/v1/[controller]")]
-        public async Task<ActionResult<Categoria>> PostCategoria(Categoria categoria)
+        public async Task<ActionResult<Pasivo>> PostPasivo(Pasivo pasivo)
         {
             using (var context = new MyWasteDBContext())
             {
-                context.Categorias.Add(categoria);
+                context.Pasivos.Add(pasivo);
                 await context.SaveChangesAsync();
 
                 //return CreatedAtAction("GetTodoItem", new { id = todoItem.Id }, todoItem);
-                return CreatedAtAction(nameof(GetOneById), new { id = categoria.IdCategoria }, categoria);
+                return CreatedAtAction(nameof(GetOneById), new { id = pasivo.IdPasivo }, pasivo);
             }                
         }
 

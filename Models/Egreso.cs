@@ -15,9 +15,11 @@ namespace MyWasteAPI.Models
 
         public int IdEgreso { get; set; }
         public string Mes { get; set; }
-        public double Total { get; set; }
-        public  string email { get; set; }
+        public string Year { get; set; }
+        public string Email { get; set; }
+        public double? Total { get; set; }
 
+        public virtual Usuario EmailNavigation { get; set; }
         public virtual ICollection<CostosFijo> CostosFijos { get; set; }
         public virtual ICollection<Pasivo> Pasivos { get; set; }
     }

@@ -9,9 +9,8 @@ namespace MyWasteAPI.Models
     {
         public Usuario()
         {
-            Ingresos = new HashSet<Ingreso>();
-
             Egresos = new HashSet<Egreso>();
+            Ingresos = new HashSet<Ingreso>();
         }
 
         public string Email { get; set; }
@@ -19,7 +18,7 @@ namespace MyWasteAPI.Models
         public string Password { get; set; }
 
         public virtual Persona IdPersonaNavigation { get; set; }
-        public virtual ICollection<Ingreso> Ingresos { get; set; }
         public virtual ICollection<Egreso> Egresos { get; set; }
+        public virtual ICollection<Ingreso> Ingresos { get; set; }
     }
 }

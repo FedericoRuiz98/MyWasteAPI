@@ -1,15 +1,13 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
-using Microsoft.Extensions.Configuration;
-using MyWasteAPI.Controllers;
+
 #nullable disable
 
 namespace MyWasteAPI.Models
 {
     public partial class MyWasteDBContext : DbContext
     {
-
         public MyWasteDBContext()
         {
         }
@@ -37,8 +35,9 @@ namespace MyWasteAPI.Models
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
-            {                                              
-                optionsBuilder.UseSqlServer(Startup.connectionString);
+            {
+#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
+                optionsBuilder.UseSqlServer("Data Source=DESKTOP-UPD9JA9;database=MyWasteDB;Integrated Security=True");
             }
         }
 
@@ -143,6 +142,12 @@ namespace MyWasteAPI.Models
 
                 entity.Property(e => e.IdEgreso).HasColumnName("idEgreso");
 
+                entity.Property(e => e.Email)
+                    .IsRequired()
+                    .HasMaxLength(100)
+                    .IsUnicode(false)
+                    .HasColumnName("email");
+
                 entity.Property(e => e.Mes)
                     .IsRequired()
                     .HasMaxLength(50)
@@ -150,6 +155,18 @@ namespace MyWasteAPI.Models
                     .HasColumnName("mes");
 
                 entity.Property(e => e.Total).HasColumnName("total");
+
+                entity.Property(e => e.Year)
+                    .IsRequired()
+                    .HasMaxLength(50)
+                    .IsUnicode(false)
+                    .HasColumnName("year");
+
+                entity.HasOne(d => d.EmailNavigation)
+                    .WithMany(p => p.Egresos)
+                    .HasForeignKey(d => d.Email)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Egresos_Usuarios");
             });
 
             modelBuilder.Entity<FormasDePago>(entity =>
@@ -244,6 +261,12 @@ namespace MyWasteAPI.Models
                     .HasColumnName("mes");
 
                 entity.Property(e => e.Monto).HasColumnName("monto");
+
+                entity.Property(e => e.Year)
+                    .IsRequired()
+                    .HasMaxLength(50)
+                    .IsUnicode(false)
+                    .HasColumnName("year");
 
                 entity.HasOne(d => d.IdCostoFijoNavigation)
                     .WithMany()

@@ -35,8 +35,9 @@ namespace MyWasteAPI
 
             services.AddCors(options =>
             {
-                options.AddPolicy(corsPolicy,
+                options.AddPolicy(name : corsPolicy,
                     builder => builder.AllowAnyOrigin()
+                    .AllowAnyHeader()
                     .AllowAnyMethod());
             });
 
@@ -59,6 +60,8 @@ namespace MyWasteAPI
             app.UseHttpsRedirection();
 
             app.UseRouting();
+
+            app.UseCors(corsPolicy);
 
             app.UseAuthorization();
 
