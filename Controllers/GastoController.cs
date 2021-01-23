@@ -4,83 +4,83 @@ using Microsoft.Extensions.Logging;
 using MyWasteAPI.Models;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 
 namespace MyWasteAPI.Controllers
 {
     [ApiController]
-    public class PasivoController : ControllerBase
+    public class GastoController : ControllerBase
     {
 
-        // api/v1/Pasivo
+        // api/v1/Gasto
         [HttpGet]
         [Route("api/v1/[controller]")]
-        public IEnumerable<Pasivo> Get()
+        public IEnumerable<Gasto> Get()
         {
             using (var context = new MyWasteDBContext())
             {
-                return context.Pasivos.ToList();
+                return context.Gastos.ToList();
             }
         }
 
-        // api/v1/Pasivo/id
+        // api/v1/Gasto/id
         [HttpGet]
-        [Route("api/v1/[controller]/{id}")]
-        public IEnumerable<Pasivo> GetOneById(int id)
+        [Route("api/v1/[controller]/byId/{id}")]
+        public IEnumerable<Gasto> GetOneById(int id)
         {
             using (var context = new MyWasteDBContext())
             {
-                return context.Pasivos.Where(p => p.IdPasivo == id).ToList();
+                return context.Gastos.Where(g => g.IdGasto == id).ToList();
             }
         }
 
-        // api/v1/Pasivo/byEgreso/id
+        // api/v1/Gasto/bypasivo/idPasivo
         [HttpGet]
-        [Route("api/v1/[controller]/byEgreso/{idEgreso}")]
-        public IEnumerable<Pasivo> GetPasivosByEgreso(int idEgreso)
+        [Route("api/v1/[controller]/bypasivo/{idPasivo}")]
+        public IEnumerable<Gasto> GetOneByEmailandDate(int idPasivo)
         {
             using (var context = new MyWasteDBContext())
             {
-                return context.Pasivos.Where(p => p.IdEgreso == idEgreso).ToList();
+                return context.Gastos.Where(g => g.IdPasivo == idPasivo).ToList();
             }
-
         }
 
-        // api/v1/Pasivo/
+        // api/v1/Gasto/
         [HttpPost]
         [Route("api/v1/[controller]")]
-        public async Task<ActionResult<Pasivo>> PostPasivo(Pasivo pasivo)
+        public async Task<ActionResult<Gasto>> PostEgreso(Gasto gasto)
         {
             using (var context = new MyWasteDBContext())
             {
-                context.Pasivos.Add(pasivo);
+                context.Gastos.Add(gasto);
                 await context.SaveChangesAsync();
 
                 //return CreatedAtAction("GetTodoItem", new { id = todoItem.Id }, todoItem);
-                return CreatedAtAction(nameof(GetOneById), new { id = pasivo.IdPasivo }, pasivo);
+                return CreatedAtAction(nameof(GetOneById), new { id = gasto.IdGasto }, gasto);
             }                
-        }
+        }   
 
-        // api/v1/Pasivo/edit
+        // api/v1/Egreso/
         [HttpPost]
         [Route("api/v1/[controller]/edit/")]
-        public ActionResult<Pasivo> PutEgreso(Pasivo pasivo)
+        public ActionResult<Gasto> PutEgreso(Gasto gasto)
         {
             using (var context = new MyWasteDBContext())
             {
-                var original = context.Pasivos.Find(pasivo.IdPasivo);
+                var original = context.Gastos.Find(gasto.IdGasto);
 
                 if (original != null)
                 {
-                    context.Entry(original).CurrentValues.SetValues(pasivo);
+                    context.Entry(original).CurrentValues.SetValues(gasto);
                     context.SaveChanges();
-                    return pasivo;
+                    return gasto;
                 }
                 else
                 {
                     return NotFound();
-                }
+                }                
             }
         }
 
